@@ -7,7 +7,7 @@ export default function ImageMarker({
 }) {
   return (
     <div style={{ position: "relative" }}>
-      {cardIndexes.map((i) => {
+      {cardIndexes?.map((i) => {
         const x = i % 5;
         const y = Math.floor(i / 5);
         return (
