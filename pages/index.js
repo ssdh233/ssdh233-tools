@@ -5,6 +5,7 @@ export default function Home() {
         <div style={{ display: "flex", flexDirection: "column" }}>
             <Item href="/mahjong-souls-haifu-converter" title="mahjong souls haifu converter" description="雀魂の牌譜をNAGAに認識できるように変換するもの" />
             <Item href="/ffmpeg-concat-helper" title="ffmpeg concat helper" description="ffmpeg concat用のファイルリストを生成するもの" />
+            <Item href="/popn-card" title="popn card collector" description="ポップンミュージックのカードのメモ帳" />
         </div >
     )
 }
