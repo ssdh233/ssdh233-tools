@@ -15,7 +15,9 @@ export default function ImageMarker({
             key={i}
             onClick={() => setChecked(blockKey, i)}
             style={{
-              background: checked[blockKey]?.[i] ? "none" : "rgba(255,255,255,0.9)",
+              background: checked[blockKey]?.[i]
+                ? "none"
+                : "rgba(255,255,255,0.9)",
               border: "none",
               position: "absolute",
               width: 187,
