@@ -1,5 +1,7 @@
+import Head from "next/head";
+import Link from "next/link";
 import { useRouter } from "next/router";
-import { useCallback } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import ImageMarker from "./ImageMarker";
 
 const data = {
@@ -94,18 +96,21 @@ const initChecked = {
 
 const decode = (c) => {
   try {
-    const checked = atob(c)
-      .split(",")
-      .map((cc) => cc.split(":"))
-      .reduce((acc, [key, value]) => {
-        const num = Number(value);
-        acc[key] = Array(15)
-          .fill(0)
-          .map((_, i) => (((2 ** i) & num) === 0 ? 0 : 1));
-        return acc;
-      }, {});
-    console.log("decode result", checked);
-    return checked;
+    if (c) {
+      const checked = atob(c)
+        .split(",")
+        .map((cc) => cc.split(":"))
+        .reduce((acc, [key, value]) => {
+          const num = Number(value);
+          acc[key] = Array(15)
+            .fill(0)
+            .map((_, i) => (((2 ** i) & num) === 0 ? 0 : 1));
+          return acc;
+        }, {});
+      return checked;
+    } else {
+      return initChecked;
+    }
   } catch (e) {
     console.error(e);
     return initChecked;
@@ -126,7 +131,6 @@ const encode = (checked) => {
       })
       .join(",")
   );
-  console.log({ result });
   return result;
 };
 
@@ -148,58 +152,109 @@ function PopnCard() {
     [checked, router]
   );
 
+  const [scale, setScale] = useState(0);
+
+  const adjustSize = useCallback(() => {
+    setScale(Math.min(Math.floor((window.innerWidth / 1080) * 100) / 100, 1));
+  }, [setScale]);
+
+  useEffect(() => {
+    adjustSize();
+  }, [adjustSize]);
+
+  useEffect(() => {
+    window.addEventListener("resize", adjustSize);
+    return () => window.removeEventListener("resize", adjustSize);
+  }, [adjustSize]);
+
   return (
-    <div>
-      <button
-        onClick={() => {
-          localStorage.setItem("c", router.query.c);
+    <>
+      <Head>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+      </Head>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          maxWidth: 1080,
         }}
       >
-        ブラウザに保存
-      </button>
-      <button
-        onClick={() => {
-          try {
-            const c = localStorage.getItem("c");
-            router.push(
-              { pathname: router.pathname, query: { c: c } },
-              undefined,
-              { scroll: false, shallow: true }
-            );
-          } catch (e) {
-            console.error(e);
-          }
-        }}
-      >
-        ブラウザから読み取る
-      </button>
-      <h1>ポップンカードコレクター</h1>
-      <div>
-        {Object.keys(data).map((key) => {
-          const [a, b] = key.split("_").map(Number);
-          return (
-            <>
-              {b === 0 ? (
-                <div className="title-ver">
-                  ポップンミュージックカード コネクトvol.{a}
-                </div>
-              ) : (
-                <img src="https://eacache.s.konaminet.jp/game/card_connect/1/images/gacha/bar.png" />
-              )}
-              {key !== "9_4" && (
-                <ImageMarker
-                  blockKey={key}
-                  src={`https://eacache.s.konaminet.jp/game/card_connect/1/images/gacha/popn/popn_detail_${key}.png`}
-                  cardIndexes={data[key]}
-                  checked={checked}
-                  setChecked={setChecked}
-                />
-              )}
-            </>
-          );
-        })}
+        <button
+          onClick={() => {
+            localStorage.setItem("c", router.query.c);
+          }}
+        >
+          ブラウザに保存
+        </button>
+        <button
+          onClick={() => {
+            try {
+              const c = localStorage.getItem("c");
+              router.push(
+                { pathname: router.pathname, query: { c: c } },
+                undefined,
+                { scroll: false, shallow: true }
+              );
+            } catch (e) {
+              console.error(e);
+            }
+          }}
+        >
+          ブラウザから読み取る
+        </button>
       </div>
-    </div>
+      <h1 style={{ fontSize: "1.5em" }}>ポップンカードコレクター</h1>
+      <Link href="/popn-card/qanda"><a>Q & A</a></Link>
+      <div
+        style={{
+          transformOrigin: "top left",
+          transform: `scale(${scale})`,
+          maxWidth: 1080,
+        }}
+      >
+        <div>
+          {Object.keys(data).map((key) => {
+            const [a, b] = key.split("_").map(Number);
+            return (
+              <React.Fragment key={key}>
+                {b === 0 ? (
+                  <div
+                    style={{
+                      width: 1000,
+                      color: "#1f5b70",
+                      background: "#fff",
+                      backgroundImage:
+                        "url(https://eacache.s.konaminet.jp/game/card_connect/1/images/original/template/frame01.png) , url(https://eacache.s.konaminet.jp/game/card_connect/1/images/original/template/frame02.png)",
+                      backgroundPosition: "top left , bottom right",
+                      backgroundRepeat: "no-repeat , no-repeat",
+                      fontSize: 28,
+                      fontWeight: "bold",
+                      textAlign: "center",
+                      border: "2px solid #1f5b70",
+                      padding: 15,
+                      margin: "40px auto 0",
+                    }}
+                  >
+                    ポップンミュージックカード コネクトvol.{a}
+                  </div>
+                ) : (
+                  <img src="https://eacache.s.konaminet.jp/game/card_connect/1/images/gacha/bar.png" />
+                )}
+                {key !== "9_4" && (
+                  <ImageMarker
+                    blockKey={key}
+                    src={`https://eacache.s.konaminet.jp/game/card_connect/1/images/gacha/popn/popn_detail_${key}.png`}
+                    cardIndexes={data[key]}
+                    checked={checked}
+                    setChecked={setChecked}
+                  />
+                )}
+              </React.Fragment>
+            );
+          })}
+        </div>
+      </div>
+    </>
   );
 }
 
