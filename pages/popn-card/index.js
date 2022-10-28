@@ -182,6 +182,22 @@ function PopnCard() {
     return () => window.removeEventListener("resize", adjustSize);
   }, [adjustSize]);
 
+  const totalCount = Object.keys(data).reduce((acc, cur) => {
+    console.log({ acc });
+    const [a] = cur.split("_");
+    if (!acc[a]) acc[a] = 0;
+    acc[a] += data[cur].length;
+    return acc;
+  }, {});
+
+  const collectedCount = Object.keys(checked).reduce((acc, cur) => {
+    console.log({ acc });
+    const [a] = cur.split("_");
+    if (!acc[a]) acc[a] = 0;
+    acc[a] += checked[cur].reduce((acc, cur) => acc + cur, 0);
+    return acc;
+  }, {});
+
   return (
     <>
       <Head>
@@ -231,8 +247,45 @@ function PopnCard() {
       </div>
       <h1 style={{ fontSize: "1.5em" }}>ポップンカードコレクター</h1>
       <Link href="/popn-card/qanda">
-        <a>Q & A</a>
+        <a style={{ display: "block" }}>Q & A</a>
       </Link>
+      <div>
+        <h3>統計</h3>
+        {Array(9)
+          .fill(0)
+          .map((_, i) => {
+            const key = 9 - i;
+            return (
+              <div style={{ display: "flex", alignItems: "center" }}>
+                <span style={{ marginRight: 8 }}>vol.{key}</span>
+                <span
+                  style={{
+                    height: 16,
+                    border: "1px solid",
+                    width: totalCount[key] * 5,
+                    textAlign: "center",
+                    fontSize: 12,
+                    position: "relative",
+                  }}
+                >
+                  {collectedCount[key] + "/" + totalCount[key]}
+                  <span
+                    style={{
+                      height: 16,
+                      width: collectedCount[key] * 5,
+                      backgroundColor: "gray",
+                      display: "block",
+                      position: "absolute",
+                      top: 0,
+                      left: 0,
+                      opacity: 0.3
+                    }}
+                  ></span>
+                </span>
+              </div>
+            );
+          })}
+      </div>
       <div
         style={{
           transformOrigin: "top left",
