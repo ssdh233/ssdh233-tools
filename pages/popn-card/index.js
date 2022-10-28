@@ -256,7 +256,7 @@ function PopnCard() {
           .map((_, i) => {
             const key = 9 - i;
             return (
-              <div style={{ display: "flex", alignItems: "center" }}>
+              <div style={{ display: "flex", alignItems: "center" }} key={key}>
                 <span style={{ marginRight: 8 }}>vol.{key}</span>
                 <span
                   style={{
