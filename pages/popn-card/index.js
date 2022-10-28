@@ -154,6 +154,21 @@ function PopnCard() {
 
   const [scale, setScale] = useState(0);
 
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const qc = params.get("c");
+
+    if (!qc) {
+      const c = localStorage.getItem("c");
+      if (c) {
+        router.push({ pathname: router.pathname, query: { c: c } }, undefined, {
+          scroll: false,
+          shallow: true,
+        });
+      }
+    }
+  }, [router]);
+
   const adjustSize = useCallback(() => {
     setScale(Math.min(Math.floor((window.innerWidth / 1080) * 100) / 100, 1));
   }, [setScale]);
@@ -181,7 +196,18 @@ function PopnCard() {
       >
         <button
           onClick={() => {
-            localStorage.setItem("c", router.query.c);
+            const c = localStorage.getItem("c");
+            if (c) {
+              if (
+                window.confirm(
+                  "すでに保存されているデータがあります。上書きしますか？"
+                )
+              ) {
+                localStorage.setItem("c", router.query.c);
+              }
+            } else {
+              localStorage.setItem("c", router.query.c);
+            }
           }}
         >
           ブラウザに保存
@@ -204,7 +230,9 @@ function PopnCard() {
         </button>
       </div>
       <h1 style={{ fontSize: "1.5em" }}>ポップンカードコレクター</h1>
-      <Link href="/popn-card/qanda"><a>Q & A</a></Link>
+      <Link href="/popn-card/qanda">
+        <a>Q & A</a>
+      </Link>
       <div
         style={{
           transformOrigin: "top left",
