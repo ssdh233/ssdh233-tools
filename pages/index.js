@@ -2,23 +2,29 @@ import Link from "next/link";
 
 export default function Home() {
   return (
-    <div style={{ display: "flex", flexDirection: "column" }}>
-      <Item
-        href="/mahjong-souls-haifu-converter"
-        title="mahjong souls haifu converter"
-        description="雀魂の牌譜をNAGAに認識できるように変換するもの"
-      />
-      <Item
-        href="/ffmpeg-concat-helper"
-        title="ffmpeg concat helper"
-        description="ffmpeg concat用のファイルリストを生成するもの"
-      />
-      <Item
-        href="/popn-card"
-        title="popn card collector"
-        description="ポップンミュージックのカードのメモ帳"
-      />
-    </div>
+    <>
+      <h2>自作ツール置き場</h2>
+      <div
+        style={{ display: "flex", flexDirection: "column", marginBottom: 16 }}
+      >
+        <Item
+          href="/mahjong-souls-haifu-converter"
+          title="雀魂NAGA用牌譜変換器"
+          description="雀魂の牌譜をNAGAに認識できるように変換するもの"
+        />
+        <Item
+          href="/ffmpeg-concat-helper"
+          title="ffmpeg concat helper"
+          description="ffmpeg concat用のファイルリストを生成するもの"
+        />
+        <Item
+          href="/popn-card"
+          title="ポップンカード"
+          description="ポップンミュージックのカードのメモ帳"
+        />
+      </div>
+      <a href="https://github.com/ssdh233/ssdh233-tools">Github</a>
+    </>
   );
 }
 
@@ -26,9 +32,9 @@ function Item({ href, title, description }) {
   return (
     <div>
       <Link href={href}>
-        <a style={{ marginRight: 0 }}>{title}</a>
+        <a style={{ marginRight: 8 }}>{title}</a>
       </Link>
-      :{description}
+      <span style={{ color: "lightgray", fontSize: "90%" }}>{description}</span>
     </div>
   );
 }
