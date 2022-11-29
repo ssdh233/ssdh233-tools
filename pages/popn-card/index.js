@@ -233,7 +233,7 @@ function PopnCard() {
                     position: "relative",
                   }}
                 >
-                  {collectedCount[key] + "/" + totalCount[key]}
+                  {(collectedCount[key] || 0) + "/" + totalCount[key]}
                   <span
                     style={{
                       height: 16,
