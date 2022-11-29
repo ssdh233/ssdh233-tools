@@ -4,7 +4,14 @@ import { useRouter } from "next/router";
 import React, { useCallback, useEffect, useState } from "react";
 import ImageMarker from "./ImageMarker";
 
+const VOLUME_COUNT = 10;
+
 const data = {
+  "10_0": [1, 2, 3, 4, 5, 11, 12, 13, 14],
+  "10_1": [0, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
+  "10_2": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
+  "10_3": [0, 1, 2, 3, 4],
+  "10_4": [],
   "9_0": [1, 2, 3, 4, 5, 11, 12, 13, 14],
   "9_1": [0, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
   "9_2": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
@@ -49,50 +56,9 @@ const data = {
   "1_1": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
 };
 
-const initChecked = {
-  "9_0": Array(15).fill(0),
-  "9_1": Array(15).fill(0),
-  "9_2": Array(15).fill(0),
-  "9_3": Array(15).fill(0),
-  "9_4": Array(15).fill(0),
-  "8_0": Array(15).fill(0),
-  "8_1": Array(15).fill(0),
-  "8_2": Array(15).fill(0),
-  "8_3": Array(15).fill(0),
-  "8_4": Array(15).fill(0),
-  "7_0": Array(15).fill(0),
-  "7_1": Array(15).fill(0),
-  "7_2": Array(15).fill(0),
-  "7_3": Array(15).fill(0),
-  "7_4": Array(15).fill(0),
-  "6_0": Array(15).fill(0),
-  "6_1": Array(15).fill(0),
-  "6_2": Array(15).fill(0),
-  "6_3": Array(15).fill(0),
-  "6_4": Array(15).fill(0),
-  "5_0": Array(15).fill(0),
-  "5_1": Array(15).fill(0),
-  "5_2": Array(15).fill(0),
-  "5_3": Array(15).fill(0),
-  "5_4": Array(15).fill(0),
-  "4_0": Array(15).fill(0),
-  "4_1": Array(15).fill(0),
-  "4_2": Array(15).fill(0),
-  "4_3": Array(15).fill(0),
-  "4_4": Array(15).fill(0),
-  "3_0": Array(15).fill(0),
-  "3_1": Array(15).fill(0),
-  "3_2": Array(15).fill(0),
-  "3_3": Array(15).fill(0),
-  "3_4": Array(15).fill(0),
-  "2_0": Array(15).fill(0),
-  "2_1": Array(15).fill(0),
-  "2_2": Array(15).fill(0),
-  "2_3": Array(15).fill(0),
-  "2_4": Array(15).fill(0),
-  "1_0": Array(15).fill(0),
-  "1_1": Array(15).fill(0),
-};
+const initChecked = Object.keys(data).reduce((result, key) => {
+  return { ...result, [key]: Array(15).fill(0) };
+}, {});
 
 const decode = (c) => {
   try {
@@ -140,7 +106,8 @@ function PopnCard() {
   const setChecked = useCallback(
     (blockKey, i) => {
       const newChecked = { ...checked };
-      newChecked[blockKey] = newChecked[blockKey].slice(0);
+      newChecked[blockKey] =
+        newChecked[blockKey]?.slice(0) || Array(15).fill(0);
       newChecked[blockKey][i] = 1 - newChecked[blockKey][i];
 
       router.push(
@@ -183,7 +150,6 @@ function PopnCard() {
   }, [adjustSize]);
 
   const totalCount = Object.keys(data).reduce((acc, cur) => {
-    console.log({ acc });
     const [a] = cur.split("_");
     if (!acc[a]) acc[a] = 0;
     acc[a] += data[cur].length;
@@ -191,7 +157,6 @@ function PopnCard() {
   }, {});
 
   const collectedCount = Object.keys(checked).reduce((acc, cur) => {
-    console.log({ acc });
     const [a] = cur.split("_");
     if (!acc[a]) acc[a] = 0;
     acc[a] += checked[cur].reduce((acc, cur) => acc + cur, 0);
@@ -251,13 +216,13 @@ function PopnCard() {
       </Link>
       <div>
         <h3>統計</h3>
-        {Array(9)
+        {Array(VOLUME_COUNT)
           .fill(0)
           .map((_, i) => {
-            const key = 9 - i;
+            const key = VOLUME_COUNT - i;
             return (
               <div style={{ display: "flex", alignItems: "center" }} key={key}>
-                <span style={{ marginRight: 8 }}>vol.{key}</span>
+                <span style={{ marginRight: 8, width: 48 }}>vol.{key}</span>
                 <span
                   style={{
                     height: 16,
@@ -278,7 +243,7 @@ function PopnCard() {
                       position: "absolute",
                       top: 0,
                       left: 0,
-                      opacity: 0.3
+                      opacity: 0.3,
                     }}
                   ></span>
                 </span>
@@ -321,7 +286,7 @@ function PopnCard() {
                 ) : (
                   <img src="https://eacache.s.konaminet.jp/game/card_connect/1/images/gacha/bar.png" />
                 )}
-                {key !== "9_4" && (
+                {key !== "9_4" && key !== "10_4" && (
                   <ImageMarker
                     blockKey={key}
                     src={`https://eacache.s.konaminet.jp/game/card_connect/1/images/gacha/popn/popn_detail_${key}.png`}
