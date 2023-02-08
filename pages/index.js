@@ -24,6 +24,7 @@ export default function Home() {
         />
       </div>
       <a href="https://github.com/ssdh233/ssdh233-tools">Github</a>
+      <a href="https://ssdh233.me">Home</a>
     </>
   );
 }
