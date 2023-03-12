@@ -22,8 +22,13 @@ export default function Home() {
           title="ポップンカード"
           description="ポップンミュージックのカードのメモ帳"
         />
+        <Item
+          href="/counter"
+          title="カウンター"
+          description="シンプルなマルチカウンター"
+        />
       </div>
-      <a href="https://github.com/ssdh233/ssdh233-tools">Github</a>
+      <a href="https://github.com/ssdh233/ssdh233-tools" style={{ marginRight: 8 }}>Github</a>
       <a href="https://ssdh233.me">Home</a>
     </>
   );
