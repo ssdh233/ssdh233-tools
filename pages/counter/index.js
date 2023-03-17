@@ -6,8 +6,9 @@ const defaultState = Array(counterNumber).fill(0).map(x => 0);
 function Counter() {
     const [state, setState] = useState(defaultState);
 
-    return <div>
-        <button onClick={() => setState(defaultState)} style={{ width: 200, height: 80, fontSize: 36, marginBottom: 24 }}>reset</button>
+    return <div style={{ fontSize: 36 }}>
+        <button onClick={() => setState(defaultState)} style={{ width: 200, height: 80, fontSize: 36, marginBottom: 24, marginRight: 64 }}>reset</button>
+        <span >Total: {state.reduce((a, b) => a + b)}</span>
         <br />
         <div style={{ display: "inline-grid", gridTemplateColumns: "auto auto auto", gap: 16 }}>
             {state.map((value, i) => {
