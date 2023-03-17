@@ -222,7 +222,7 @@ function PopnCard() {
             const key = VOLUME_COUNT - i;
             return (
               <div style={{ display: "flex", alignItems: "center" }} key={key}>
-                <span style={{ marginRight: 8, width: 48 }}>vol.{key}</span>
+                <a href={`#vol${key}`} style={{ marginRight: 8, width: 48 }}>vol.{key}</a>
                 <span
                   style={{
                     height: 16,
@@ -265,6 +265,8 @@ function PopnCard() {
               <React.Fragment key={key}>
                 {b === 0 ? (
                   <div
+                    onClick={() => window.scrollTo(0, 0)}
+                    id={`vol${a}`}
                     style={{
                       width: 1000,
                       color: "#1f5b70",
