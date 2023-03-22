@@ -4,19 +4,21 @@ import { useRouter } from "next/router";
 import React, { useCallback, useEffect, useState } from "react";
 import ImageMarker from "./ImageMarker";
 
-const VOLUME_COUNT = 10;
+const VOLUME_COUNT = 11;
 
 const data = {
+  "11_0": [1, 2, 3, 4, 5, 11, 12, 13, 14],
+  "11_1": [0, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
+  "11_2": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
+  "11_3": [0, 1, 2, 3, 4],
   "10_0": [1, 2, 3, 4, 5, 11, 12, 13, 14],
   "10_1": [0, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
   "10_2": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
   "10_3": [0, 1, 2, 3, 4],
-  "10_4": [],
   "9_0": [1, 2, 3, 4, 5, 11, 12, 13, 14],
   "9_1": [0, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
   "9_2": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
   "9_3": [0, 1, 2, 3, 4],
-  "9_4": [],
   "8_0": [1, 2, 3, 4, 5, 11, 12, 13, 14],
   "8_1": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
   "8_2": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
@@ -288,15 +290,13 @@ function PopnCard() {
                 ) : (
                   <img src="https://eacache.s.konaminet.jp/game/card_connect/1/images/gacha/bar.png" />
                 )}
-                {key !== "9_4" && key !== "10_4" && (
-                  <ImageMarker
-                    blockKey={key}
-                    src={`https://eacache.s.konaminet.jp/game/card_connect/1/images/gacha/popn/popn_detail_${key}.png`}
-                    cardIndexes={data[key]}
-                    checked={checked}
-                    setChecked={setChecked}
-                  />
-                )}
+                <ImageMarker
+                  blockKey={key}
+                  src={`https://eacache.s.konaminet.jp/game/card_connect/1/images/gacha/popn/popn_detail_${key}.png`}
+                  cardIndexes={data[key]}
+                  checked={checked}
+                  setChecked={setChecked}
+                />
               </React.Fragment>
             );
           })}
