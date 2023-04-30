@@ -32,6 +32,11 @@ export default function Home() {
           title="ポップンスコアツール"
           description="ケルパニさんのスコアツールから改造したポップンスコアツール"
         />
+        <Item
+          href="https://ssdh233.me/black"
+          title="BLACK"
+          description="真っ暗なだけ"
+        />
       </div>
       <a href="https://github.com/ssdh233/ssdh233-tools" style={{ marginRight: 8 }}>Github</a>
       <a href="https://ssdh233.me">Home</a>
