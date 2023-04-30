@@ -27,6 +27,11 @@ export default function Home() {
           title="カウンター"
           description="シンプルなマルチカウンター"
         />
+        <Item
+          href="https://ssdh233.me/popn-score-tool"
+          title="ポップンスコアツール"
+          description="ケルパニさんのスコアツールから改造したポップンスコアツール"
+        />
       </div>
       <a href="https://github.com/ssdh233/ssdh233-tools" style={{ marginRight: 8 }}>Github</a>
       <a href="https://ssdh233.me">Home</a>
