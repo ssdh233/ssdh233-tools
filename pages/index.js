@@ -37,6 +37,11 @@ export default function Home() {
           title="BLACK"
           description="真っ暗なだけ"
         />
+        <Item
+          href="/popn-sudden"
+          title="ポップンSUDDEN計算"
+          description="ポップン新筐体のSUDDEN+数値計算ツール"
+        />
       </div>
       <a href="https://github.com/ssdh233/ssdh233-tools" style={{ marginRight: 8 }}>Github</a>
       <a href="https://ssdh233.me">Home</a>
